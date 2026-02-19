@@ -1,4 +1,10 @@
-- Please Leave a star to support my work if you like what you see, it will be appreciated, and check out my: Website: https://www.hamzamissaoui.dev and Linkedin: https://linkedin.com/in/hamzamissaoui
+⭐ If you find this project useful, please consider giving it a star — your support is truly appreciated!
+
+🔗 Website: https://www.hamzamissaoui.dev
+
+🔗 LinkedIn: https://linkedin.com/in/hamzamissaoui
+
+I’m open to collaborations and new opportunities that align with my profile as a Tech Lead & Full-Stack Developer, especially on scalable, cloud-native, and product-driven projects.
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.2.
 
