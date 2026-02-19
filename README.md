@@ -1,6 +1,4 @@
-Leave a star to support my work if you like what you see,  will be appreciated
-## Linkedin: https://linkedin.com/in/hamzamissaoui
-## Website: https://www.hamzamissaoui.dev
+- Please Leave a star to support my work if you like what you see, it will be appreciated, and check out my: Website: https://www.hamzamissaoui.dev and Linkedin: https://linkedin.com/in/hamzamissaoui
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.2.
 
