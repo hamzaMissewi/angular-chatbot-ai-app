@@ -1,4 +1,6 @@
-# MyFirstAngularApp
+Leave a star to support my work if you like what you see,  will be appreciated
+## Linkedin: https://linkedin.com/in/hamzamissaoui
+## Website: https://www.hamzamissaoui.dev
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.2.
 
