@@ -1,0 +1,548 @@
+<style>
+  :host {
+    --primary-blue: #00d4ff;
+    --secondary-purple: #7c3aed;
+    --accent-green: #10b981;
+    --accent-red: #ef4444;
+    --dark-bg: #0f172a;
+    --card-bg: #1e293b;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --border-color: #334155;
+    --gradient-primary: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-purple) 100%);
+    --gradient-card: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    padding: 0;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    background: var(--dark-bg);
+    color: var(--text-primary);
+  }
+
+  /* Navigation */
+  nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color);
+    z-index: 1000;
+    padding: 1rem 2rem;
+  }
+
+  .nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .nav-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
+
+  .nav-link:hover {
+    color: var(--primary-blue);
+  }
+
+  .menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+
+  /* Hero Section */
+  .hero {
+    margin-top: 80px;
+    padding: 4rem 2rem;
+    text-align: center;
+    background: radial-gradient(ellipse at center, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .hero h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+  }
+
+  .hero p {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .btn-primary {
+    background: var(--gradient-primary);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 212, 255, 0.3);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--primary-blue);
+    border: 2px solid var(--primary-blue);
+  }
+
+  .btn-secondary:hover {
+    background: var(--primary-blue);
+    color: var(--dark-bg);
+  }
+
+  /* Crypto Stats */
+  .crypto-stats {
+    padding: 3rem 2rem;
+    background: var(--card-bg);
+  }
+
+  .stats-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+
+  .stat-card {
+    background: var(--gradient-card);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    border: 1px solid var(--border-color);
+    transition: transform 0.3s ease;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .stat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .stat-name {
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .stat-symbol {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+  }
+
+  .stat-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-change {
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .positive {
+    color: var(--accent-green);
+  }
+
+  .negative {
+    color: var(--accent-red);
+  }
+
+  /* Features Section */
+  .features {
+    padding: 4rem 2rem;
+  }
+
+  .features h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .features-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .feature-card {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 1rem;
+    border: 1px solid var(--border-color);
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-blue);
+  }
+
+  .feature-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 1rem;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+  }
+
+  .feature-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+  }
+
+  .feature-description {
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* Footer */
+  footer {
+    background: var(--card-bg);
+    padding: 3rem 2rem 2rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .footer-section h3 {
+    color: var(--primary-blue);
+    margin-bottom: 1rem;
+  }
+
+  .footer-links {
+    list-style: none;
+    padding: 0;
+  }
+
+  .footer-links li {
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .footer-links a:hover {
+    color: var(--primary-blue);
+  }
+
+  .footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-secondary);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .nav-links {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: rgba(15, 23, 42, 0.98);
+      flex-direction: column;
+      padding: 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-links.active {
+      display: flex;
+    }
+
+    .menu-toggle {
+      display: block;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+    }
+
+    .cta-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .btn {
+      width: 100%;
+      max-width: 300px;
+    }
+  }
+
+  /* Animations */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .floating {
+    animation: float 3s ease-in-out infinite;
+  }
+</style>
+
+<!-- Navigation -->
+<nav>
+  <div class="nav-container">
+    <div class="logo">CryptoAI</div>
+    <div class="nav-links" id="navLinks">
+      <a href="https://linkedin.com/in/hamzamissaoui" target="_blank" class="nav-link">LinkedIn</a>
+      <a href="https://github.com/hamzaMissewi" target="_blank" class="nav-link">GitHub</a>
+      <a href="https://www.hamzamissaoui.dev" target="_blank" class="nav-link">Portfolio</a>
+      <a href="https://hamzamissaoui.online" target="_blank" class="nav-link">Personal</a>
+      <a href="https://link.hamzamissaoui.dev/projects" target="_blank" class="nav-link">Projects</a>
+      <a href="https://www.hackerrank.com/hamza_missaoui47" target="_blank" class="nav-link">HackerRank</a>
+      <a href="mailto:contact@hamzamissaoui.dev" class="nav-link">Contact</a>
+    </div>
+    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero">
+  <h1>Crypto Marketplace</h1>
+  <p>Trade cryptocurrencies with AI-powered insights and real-time market analysis</p>
+  <div class="cta-buttons">
+    <button class="btn btn-primary" onclick="scrollToStats()">
+      <span>🚀</span> View Markets
+    </button>
+    <button class="btn btn-secondary" onclick="openChatbot()">
+      <span>🤖</span> Try AI Assistant
+    </button>
+  </div>
+</section>
+
+<!-- Crypto Statistics -->
+<section class="crypto-stats" id="cryptoStats">
+  <div class="stats-container">
+    <div class="stat-card">
+      <div class="stat-header">
+        <span class="stat-name">Bitcoin</span>
+        <span class="stat-symbol">BTC</span>
+      </div>
+      <div class="stat-price">$67,234.56</div>
+      <div class="stat-change positive">+5.23%</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-header">
+        <span class="stat-name">Ethereum</span>
+        <span class="stat-symbol">ETH</span>
+      </div>
+      <div class="stat-price">$3,456.78</div>
+      <div class="stat-change positive">+3.45%</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-header">
+        <span class="stat-name">Solana</span>
+        <span class="stat-symbol">SOL</span>
+      </div>
+      <div class="stat-price">$178.90</div>
+      <div class="stat-change negative">-1.23%</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-header">
+        <span class="stat-name">Cardano</span>
+        <span class="stat-symbol">ADA</span>
+      </div>
+      <div class="stat-price">$0.678</div>
+      <div class="stat-change positive">+2.15%</div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+  <h2>Why Choose CryptoAI?</h2>
+  <div class="features-grid">
+    <div class="feature-card floating">
+      <div class="feature-icon">🤖</div>
+      <h3 class="feature-title">AI-Powered Insights</h3>
+      <p class="feature-description">Get intelligent market analysis and trading recommendations powered by advanced machine learning algorithms.</p>
+    </div>
+    <div class="feature-card floating" style="animation-delay: 0.2s;">
+      <div class="feature-icon">⚡</div>
+      <h3 class="feature-title">Lightning Fast</h3>
+      <p class="feature-description">Execute trades in milliseconds with our high-performance trading engine and low-latency infrastructure.</p>
+    </div>
+    <div class="feature-card floating" style="animation-delay: 0.4s;">
+      <div class="feature-icon">🔒</div>
+      <h3 class="feature-title">Secure Trading</h3>
+      <p class="feature-description">Bank-grade security with multi-signature wallets, cold storage, and advanced encryption protocols.</p>
+    </div>
+    <div class="feature-card floating" style="animation-delay: 0.6s;">
+      <div class="feature-icon">📊</div>
+      <h3 class="feature-title">Real-Time Analytics</h3>
+      <p class="feature-description">Track your portfolio performance with detailed analytics, charts, and comprehensive reporting tools.</p>
+    </div>
+    <div class="feature-card floating" style="animation-delay: 0.8s;">
+      <div class="feature-icon">🌍</div>
+      <h3 class="feature-title">Global Markets</h3>
+      <p class="feature-description">Access hundreds of cryptocurrencies across multiple global exchanges with competitive fees.</p>
+    </div>
+    <div class="feature-card floating" style="animation-delay: 1s;">
+      <div class="feature-icon">💬</div>
+      <h3 class="feature-title">24/7 Support</h3>
+      <p class="feature-description">Get help anytime with our AI chatbot and dedicated human support team for complex issues.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-content">
+    <div class="footer-section">
+      <h3>Connect With Me</h3>
+      <ul class="footer-links">
+        <li><a href="https://linkedin.com/in/hamzamissaoui" target="_blank">LinkedIn Profile</a></li>
+        <li><a href="https://github.com/hamzaMissewi" target="_blank">GitHub Projects</a></li>
+        <li><a href="https://www.hamzamissaoui.dev" target="_blank">Portfolio Website</a></li>
+        <li><a href="https://hamzamissaoui.online" target="_blank">Personal Site</a></li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h3>Resources</h3>
+      <ul class="footer-links">
+        <li><a href="https://link.hamzamissaoui.dev/projects" target="_blank">All Projects</a></li>
+        <li><a href="https://www.hackerrank.com/hamza_missaoui47" target="_blank">HackerRank Profile</a></li>
+        <li><a href="mailto:contact@hamzamissaoui.dev">Email Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h3>CryptoAI</h3>
+      <ul class="footer-links">
+        <li><a href="#">About Platform</a></li>
+        <li><a href="#">Trading Features</a></li>
+        <li><a href="#">Security</a></li>
+        <li><a href="#">API Documentation</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2024 CryptoAI. Built by Hamza Missaoui. All rights reserved.</p>
+  </div>
+</footer>
+
+<router-outlet />
+<app-chatbot />
+
+<script>
+  function toggleMenu() {
+    const navLinks = document.getElementById('navLinks');
+    navLinks.classList.toggle('active');
+  }
+
+  function scrollToStats() {
+    document.getElementById('cryptoStats').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function openChatbot() {
+    // Trigger chatbot to open - this will work with the existing chatbot component
+    const chatbotToggle = document.querySelector('.chat-toggle-btn');
+    if (chatbotToggle) {
+      chatbotToggle.click();
+    }
+  }
+</script>
