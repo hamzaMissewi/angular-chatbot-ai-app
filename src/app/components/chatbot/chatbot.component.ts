@@ -1,43 +1,94 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, OnInit, AfterViewInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChatbotService } from '../../services/chatbot.service';
+// import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-chatbot',
   standalone: true,
   imports: [CommonModule, FormsModule],
+  // providers: [ChatbotService, HttpClient],
   templateUrl: './chatbot.component.html',
   styleUrls: ['./chatbot.component.css']
 })
-export class ChatbotComponent {
-  messages = signal<{ role: string; content: string }[]>([]);
+export class ChatbotComponent implements OnInit, AfterViewInit {
+  @ViewChild('messageInput') messageInput!: ElementRef<HTMLTextAreaElement>;
+  @ViewChild('messageContainer') messageContainer!: ElementRef<HTMLDivElement>;
+
+  messages = signal<{ role: string; content: string; timestamp?: Date }[]>([]);
   isLoading = signal(false);
   userInput = signal('');
   isOpen = signal(false);
 
-  constructor(private chatbotService: ChatbotService) { }
+  constructor(private chatbotService: ChatbotService, private cdr: ChangeDetectorRef) { }
+
+  ngAfterViewInit() {
+    // Component is fully initialized
+  }
+
+  ngOnInit() {
+    // Add welcome message when component initializes
+    this.messages.set([{
+      role: 'assistant',
+      content: 'Hello! I\'m your CryptoAI assistant. How can I help you with cryptocurrency trading today?',
+      timestamp: new Date()
+    }]);
+  }
 
   toggleChat() {
+    console.log('Chatbot toggle clicked, current state:', this.isOpen());
     this.isOpen.set(!this.isOpen());
+    console.log('Chatbot new state:', this.isOpen());
+  }
+
+  // Public method to allow external calls
+  openChat() {
+    this.isOpen.set(true);
+  }
+
+  closeChat() {
+    this.isOpen.set(false);
   }
 
   sendMessage() {
     const message = this.userInput().trim();
-    if (!message) return;
+    if (!message || this.isLoading()) return;
 
-    this.messages.update(msgs => [...msgs, { role: 'user', content: message }]);
+    console.log('Sending message:', message);
+
+    // Add user message
+    this.messages.update(msgs => [...msgs, {
+      role: 'user',
+      content: message,
+      timestamp: new Date()
+    }]);
+
     this.userInput.set('');
     this.isLoading.set(true);
 
+    // Send to service
     this.chatbotService.sendMessage(message).subscribe({
       next: (response: any) => {
-        const responseText = response?.candidates?.[0]?.content?.parts?.[0]?.text || response || 'I received your message but I am having trouble processing it right now.';
-        this.messages.update(msgs => [...msgs, { role: 'assistant', content: responseText }]);
+        console.log('API response:', response);
+        const responseText = response?.candidates?.[0]?.content?.parts?.[0]?.text ||
+          response?.response ||
+          'I received your message but I am having trouble processing it right now.';
+
+        this.messages.update(msgs => [...msgs, {
+          role: 'assistant',
+          content: responseText,
+          timestamp: new Date()
+        }]);
         this.isLoading.set(false);
       },
       error: (error) => {
-        this.messages.update(msgs => [...msgs, { role: 'assistant', content: 'Sorry, I encountered an error. Please try again.' }]);
+        console.error('Chatbot error:', error);
+        this.messages.update(msgs => [...msgs, {
+          role: 'assistant',
+          content: 'Sorry, I encountered an error. Please try again later.',
+          timestamp: new Date()
+        }]);
         this.isLoading.set(false);
       }
     });
@@ -48,5 +99,18 @@ export class ChatbotComponent {
       event.preventDefault();
       this.sendMessage();
     }
+  }
+
+  clearChat() {
+    this.messages.set([{
+      role: 'assistant',
+      content: 'Chat cleared. How can I help you?',
+      timestamp: new Date()
+    }]);
+  }
+
+  formatTime(timestamp?: Date) {
+    if (!timestamp) return '';
+    return timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   }
 }
