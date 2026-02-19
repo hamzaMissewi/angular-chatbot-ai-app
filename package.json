@@ -4,9 +4,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "deploy": "npm run build && npx angular-cli-ghpages --dir=dist/angular-ai-chatbot-mcp/browser",
     "serve:ssr:angular-ai-chatbot-mcp": "node dist/angular-ai-chatbot-mcp/server/server.mjs"
   },
   "prettier": {

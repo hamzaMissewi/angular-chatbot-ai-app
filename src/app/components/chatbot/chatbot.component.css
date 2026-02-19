@@ -129,6 +129,7 @@
   align-items: center;
 }
 
+.details-btn,
 .clear-btn,
 .close-btn {
   background: none;
@@ -143,6 +144,7 @@
   justify-content: center;
 }
 
+.details-btn:hover,
 .clear-btn:hover,
 .close-btn:hover {
   background: rgba(255, 255, 255, 0.2);
@@ -154,6 +156,7 @@
   height: 30px;
 }
 
+.details-btn,
 .clear-btn {
   width: 25px;
   height: 25px;

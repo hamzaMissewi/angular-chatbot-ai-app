@@ -2,13 +2,13 @@ import { Component, signal, OnInit, AfterViewInit, ViewChild, ElementRef, Change
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChatbotService } from '../../services/chatbot.service';
-// import { HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-chatbot',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  // providers: [ChatbotService, HttpClient],
+  providers: [ChatbotService, HttpClient],
   templateUrl: './chatbot.component.html',
   styleUrls: ['./chatbot.component.css']
 })
@@ -51,6 +51,15 @@ export class ChatbotComponent implements OnInit, AfterViewInit {
     this.isOpen.set(false);
   }
 
+  showDetails() {
+    this.messages.update(msgs => [...msgs, {
+      role: 'assistant',
+      content: 'Here are some details about this project:\n\n• **Built with:** Angular 21, Signals, and Gemini AI\n• **Developer:** Hamza Missaoui\n• **Core Features:** Real-time crypto analysis, AI-powered trading insights, and responsive design.\n\nHow can I help you further?',
+      timestamp: new Date()
+    }]);
+    this.scrollToBottom();
+  }
+
   sendMessage() {
     const message = this.userInput().trim();
     if (!message || this.isLoading()) return;
@@ -81,6 +90,7 @@ export class ChatbotComponent implements OnInit, AfterViewInit {
           timestamp: new Date()
         }]);
         this.isLoading.set(false);
+        this.scrollToBottom();
       },
       error: (error) => {
         console.error('Chatbot error:', error);
@@ -90,8 +100,19 @@ export class ChatbotComponent implements OnInit, AfterViewInit {
           timestamp: new Date()
         }]);
         this.isLoading.set(false);
+        this.scrollToBottom();
       }
     });
+    this.scrollToBottom();
+  }
+
+  private scrollToBottom() {
+    setTimeout(() => {
+      if (this.messageContainer) {
+        const container = this.messageContainer.nativeElement;
+        container.scrollTop = container.scrollHeight;
+      }
+    }, 100);
   }
 
   handleKeyPress(event: KeyboardEvent) {
